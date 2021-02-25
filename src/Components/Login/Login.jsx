@@ -1,36 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Grid from '@material-ui/core/Grid';
 import {Avatar,Typography,TextField, Button} from '@material-ui/core'
-import {makeStyles} from '@material-ui/core/styles'
+import loggingStyles from './loggingStyles';
+import exampleUsers from './exampleUsers';
 import 'fontsource-roboto';
-const useStyles = makeStyles((theme) => ({
-    large: {
-      width: '80px',
-      height: '80px',
-      textAlign: 'center'
-    },
-    header:{
-        paddingTop: "3rem",
-        paddingBottom: "1rem"
-    },
-    form:{
-        paddingTop: "2rem",
-    },
-    textField:{
-        paddingBottom: "1rem",
-        width:"100%"
-    },
-    btn:{
-        width:"100%"
-    },
-    text:{
-        paddingTop: "1rem",
-        fontSize: "16px"
-    }
-}));
 
-export const Login = () => {
-    const classes = useStyles();
+export const Login = ({history}) => {
+    const classes = loggingStyles();
+    const [userName, setUserName] = useState("");
+    const [password,setPassword] = useState("");
+    const login = () => {
+        const userFound = exampleUsers.find((user) => userName === user.userName && password === user.passWord);
+        if (userFound){
+            localStorage.setItem("user",JSON.stringify(
+                {loggingStatus:"loggedIn",username:userName,password}
+            ))
+            window.location.href = "/taskPlanner"   
+        }
+        else{
+            alert("Incorrect logging check your credentials")
+        }
+    }
     return (
         <Grid container direction="row" justify="center" alignItems="center">
             <Grid item xs={7}>
@@ -48,20 +38,27 @@ export const Login = () => {
                                 className={classes.textField}
                                 label="Username"
                                 color="primary"
+                                name="userName"
+                                value={userName}
                                 variant="outlined"
+                                onChange = {({target}) => setUserName(target.value)}
                             />
                             <TextField
                                 className={classes.textField}
                                 label="Password"
                                 type="password"
                                 color="primary"
+                                name="password"
+                                value={password}
                                 variant="outlined"
+                                onChange = {({target}) => setPassword(target.value)}
                             />
                             <Button
                                 fulldWidth
                                 variant="contained"
                                 color="primary"
                                 className={classes.btn}
+                                onClick={login}
                             >
                                 Login
                             </Button>
@@ -70,9 +67,7 @@ export const Login = () => {
                             </Typography>
                         </form>
                     </Grid>
-                    <Grid item xs={3}>
-                        
-                    </Grid>
+                    
                 </Grid>
             </Grid>
         </Grid>

@@ -1,14 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { Login } from './Components/Login/Login';
-import Grid from '@material-ui/core/Grid';
-
+import {App} from './App'
 ReactDOM.render(
   <React.StrictMode>
-    <Login />
+    <App/>
   </React.StrictMode>,
   document.getElementById('root')
 );
